@@ -1,4 +1,6 @@
-﻿using System.Text;
+﻿using System.Media;
+using System.Numerics;
+using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -8,6 +10,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.IO;
+
 
 namespace Labirintus
 {
@@ -48,15 +52,36 @@ namespace Labirintus
             {
                 Label lbl = new Label();
 
-                lbl.Content = tile.icon.ToString();
+                //lbl.Content = tile.icon.ToString();
                 lbl.FontSize = 32;
                 lbl.HorizontalContentAlignment = HorizontalAlignment.Center;
                 lbl.VerticalContentAlignment = VerticalAlignment.Center;
-
+                lbl.Background = Brushes.LightGray;
+                //Font
+                //lbl.FontFamily = new FontFamily("Consolas");
                 Grid.SetColumn(lbl, tile.posX);
                 Grid.SetRow(lbl, tile.posY);
 
                 GameGrid.Children.Add(lbl);
+            }
+        }
+
+        private void TabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+            MediaPlayer player = new MediaPlayer();
+
+            string path = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Sounds", "sound.mp3");
+            
+
+            player.Open(new Uri(path));
+
+
+            var tab = (sender as TabControl).SelectedItem as TabItem;
+
+            if (tab.Header.ToString() == "Nehéz mód")
+            {
+                player.Play();
             }
         }
     }

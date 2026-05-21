@@ -6,22 +6,82 @@
         xmlns:local="clr-namespace:Labirintus"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
-    <Grid >
-        <Grid.RowDefinitions>
-            <RowDefinition />
-            <RowDefinition Height="6*"/>
-        </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="10*"/>
-            <ColumnDefinition />
+    <TabControl SelectionChanged="TabControl_SelectionChanged">
+        <TabItem Header="Könnyű mód">
+            <Grid >
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition Height="6*"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="10*"/>
+                    <ColumnDefinition />
 
-        </Grid.ColumnDefinitions>
-        <Button Grid.Row="0" Grid.Column="1" Height="25px" Margin="0px 25px 0px 0px"> LES</Button>
-        <Button Grid.Row="0" Grid.Column="1" Height="25px" Margin="0px 0px 0px 25px">ENG</Button>
+                </Grid.ColumnDefinitions>
+                <Grid Grid.Row="0" Grid.Column="1">
+                    <Grid.RowDefinitions>
+                        <RowDefinition />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+                    <Button Grid.Row="0" >LES</Button>
+                    <Button Grid.Row="1" >ENG</Button>
+                </Grid>
+                <Grid x:Name="GameGrid" Grid.Column="0" Grid.Row="1" Background="DarkGray">
 
-        <Grid x:Name="GameGrid" Grid.Column="0" Grid.Row="1">
-            
-        </Grid>
-        
-    </Grid>
+                </Grid>
+
+            </Grid>
+        </TabItem>
+        <TabItem Header="Közpes mód" Height="22" Margin="-2,-2,-2,0" VerticalAlignment="Top">
+            <Grid >
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition Height="6*"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="10*"/>
+                    <ColumnDefinition />
+
+                </Grid.ColumnDefinitions>
+                <Grid Grid.Row="0" Grid.Column="1">
+                    <Grid.RowDefinitions>
+                        <RowDefinition />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+                    <Button Grid.Row="0" >LES</Button>
+                    <Button Grid.Row="1" >ENG</Button>
+                </Grid>
+                <Grid x:Name="GameGrid1" Grid.Column="0" Grid.Row="1" Background="DarkGray">
+
+                </Grid>
+
+            </Grid>
+        </TabItem>
+        <TabItem Header="Nehéz mód">
+            <Grid >
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition Height="6*"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="10*"/>
+                    <ColumnDefinition />
+
+                </Grid.ColumnDefinitions>
+                <Grid Grid.Row="0" Grid.Column="1">
+                    <Grid.RowDefinitions>
+                        <RowDefinition />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+                    <Button Grid.Row="0" >LES</Button>
+                    <Button Grid.Row="1" >ENG</Button>
+                </Grid>
+                <Grid x:Name="GameGrid2" Grid.Column="0" Grid.Row="1" Background="DarkGray">
+
+                </Grid>
+
+            </Grid>
+        </TabItem>
+    </TabControl>
+    
 </Window>
