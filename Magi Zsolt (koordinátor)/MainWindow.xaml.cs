@@ -55,7 +55,7 @@ namespace Labirintus
             {
                 Label lbl = new Label();
 
-                //lbl.Content = tile.icon.ToString();
+                lbl.Content = tile.icon.ToString();
                 lbl.FontSize = 32;
                 lbl.HorizontalContentAlignment = HorizontalAlignment.Center;
                 lbl.VerticalContentAlignment = VerticalAlignment.Center;
@@ -139,6 +139,12 @@ namespace Labirintus
                     }
                 }
             }
+        }
+
+
+        private void CheckNeighbours() {
+            Vector2 playerPos = new Vector2(playerX, playerY);
+            
         }
     }
 }
