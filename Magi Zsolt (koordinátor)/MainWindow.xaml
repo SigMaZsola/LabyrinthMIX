@@ -6,7 +6,22 @@
         xmlns:local="clr-namespace:Labirintus"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
-    <Grid x:Name="GameGrid">
-        <Label x:Name="lbDebug"></Label>
+    <Grid >
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition Height="6*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="10*"/>
+            <ColumnDefinition />
+
+        </Grid.ColumnDefinitions>
+        <Button Grid.Row="0" Grid.Column="1" Height="25px" Margin="0px 25px 0px 0px"> LES</Button>
+        <Button Grid.Row="0" Grid.Column="1" Height="25px" Margin="0px 0px 0px 25px">ENG</Button>
+
+        <Grid x:Name="GameGrid" Grid.Column="0" Grid.Row="1">
+            
+        </Grid>
+        
     </Grid>
 </Window>
