@@ -45,6 +45,10 @@ namespace Labirintus
 
                     switch (c)
                     {
+                        case '█':
+                            type = Tile.tileType.Chamber;
+                            break;
+
                         case '╬':
                             type = Tile.tileType.Cross;
                             break;

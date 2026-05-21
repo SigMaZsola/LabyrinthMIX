@@ -11,6 +11,7 @@ namespace Labirintus
         public enum tileType
         {
             Empty,
+            Chamber,
             Cross,
             Horizontal,
             T,
@@ -50,6 +51,10 @@ namespace Labirintus
                     calculatedConnections = new List<bool> { false, false, false, false };
                     break;
                 case tileType.Cross:
+                    // MIndenhová kapcsolódik
+                    calculatedConnections = new List<bool> { true, true, true, true };
+                    break;
+                case tileType.Chamber:
                     // MIndenhová kapcsolódik
                     calculatedConnections = new List<bool> { true, true, true, true };
                     break;
