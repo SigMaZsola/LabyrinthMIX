@@ -20,11 +20,14 @@ namespace Labirintus
     /// </summary>
     public partial class MainWindow : Window
     {
+        public int playerX = 0;
+        public int playerY = 0;
         public MainWindow()
         {
             InitializeComponent();
-                Map map = new Map();
+            Map map = new Map();
             DrawMap(map.tiles);
+
 
         }
         private void DrawMap(List<Tile> tiles)
@@ -82,6 +85,59 @@ namespace Labirintus
             if (tab.Header.ToString() == "Nehéz mód")
             {
                 player.Play();
+            }
+            else if (tab.Header.ToString() != "Nehéz mód")
+            {
+                player.Stop();
+            }
+        }
+
+        private void Window_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.W)
+            {
+                MovePlayer(new Vector2(0, -1));
+            }
+            if (e.Key == Key.A)
+            {
+                MovePlayer(new Vector2(-1, 0));
+
+            }
+            if (e.Key == Key.S)
+            {
+                MovePlayer(new Vector2(0, 1));
+
+            }
+            if (e.Key == Key.D)
+            {
+                MovePlayer(new Vector2(1, 0));
+
+            }
+        }
+        private void MovePlayer(Vector2 dir)
+        {
+
+            Player player = new Player('P', playerX, playerY);
+            playerX += (int)dir.X;
+            playerY += (int)dir.Y;
+            player.posX = playerX;
+            player.posY = playerY;
+            foreach (UIElement child in GameGrid.Children)
+            {
+                if (child is Label label)
+                {
+                    int x = Grid.GetColumn(label);
+                    int y = Grid.GetRow(label);
+
+                    if (x == playerX && y == playerY)
+                    {
+                        label.Content = "P";
+                    }
+                    else
+                    {
+                        label.Content = "";
+                    }
+                }
             }
         }
     }
