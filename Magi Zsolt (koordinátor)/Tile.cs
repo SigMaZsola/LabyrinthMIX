@@ -90,12 +90,12 @@ namespace Labirintus
                     break;
                 case tileType.TopRightC:
                     // Fel és jobbra kapcsolódik
-                    calculatedConnections = new List<bool> { true, false, false, true };
+                    calculatedConnections = new List<bool> { true, true, true, true };
 
                     break;
                 case tileType.TopLeftC:
                     // Fel és balra kapcsolódik
-                    calculatedConnections = new List<bool> { true, false, true, false };
+                    calculatedConnections = new List<bool> { true, true, true, true };
 
                     break;
                 case tileType.BottomRightC:

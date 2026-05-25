@@ -10,7 +10,7 @@ namespace Labirintus
 {
     internal class Map
     {
-        public List<Tile> tiles = new List<Tile>();
+        public Tile[,] tiles;
 
         public Map()
         {
@@ -18,16 +18,19 @@ namespace Labirintus
             tiles = readTileMap();
         }
 
-        private List<Tile> readTileMap()
+        private Tile[,] readTileMap()
         {
-            List<Tile> readTiles = new List<Tile>();
-
             OpenFileDialog ofd = new OpenFileDialog();
 
-            if (ofd.ShowDialog() == false)
-                return readTiles;
+            if (ofd.ShowDialog() != true)
+                return null;
 
             string[] sorok = File.ReadAllLines(ofd.FileName);
+
+            int magassag = sorok.Length;
+            int szelesseg = sorok[0].Length;
+
+            Tile[,] readTiles = new Tile[szelesseg, magassag];
 
             for (int y = 0; y < sorok.Length; y++)
             {
@@ -37,7 +40,6 @@ namespace Labirintus
                 {
                     char c = sor[x];
 
-                    // Üres hely kihagyása
                     if (c == '.')
                         continue;
 
@@ -99,7 +101,7 @@ namespace Labirintus
 
                     Tile tile = new Tile(x, y, type, c);
 
-                    readTiles.Add(tile);
+                    readTiles[x, y] = tile;
                 }
             }
 
