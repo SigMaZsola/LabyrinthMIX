@@ -41,16 +41,16 @@
                 </Grid.RowDefinitions>
 
                 <TextBlock Text="Szélesség: " VerticalAlignment="Center" HorizontalAlignment="Right"/>
-                <TextBox x:Name="txtWidth" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center" MinWidth="20px"/>
+                <TextBox x:Name="txtWidth" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center" MinWidth="20px" TextChanged="TextChanged"/>
                 <TextBlock Grid.Row="1" Text="Magasság: " VerticalAlignment="Center" HorizontalAlignment="Right"/>
-                <TextBox x:Name="txtHeight" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center" MinWidth="20px"/>
+                <TextBox x:Name="txtHeight" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center" MinWidth="20px" TextChanged="TextChanged"/>
                 <Button x:Name="btnGenerate" Content="Generálás" Grid.Row="2" Grid.ColumnSpan="2" HorizontalAlignment="Stretch" VerticalAlignment="Center" Padding="2px"/>
             </Grid>
             <TextBlock x:Name="txtCurrent" Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="30px"/>
-            <Button x:Name="btnRoom" Grid.Row="3" Content="█" HorizontalAlignment="Center" VerticalAlignment="Center" MinHeight="25px" MinWidth="25px"/>
+            <Button x:Name="btnRoom" Grid.Row="3" Content="█" HorizontalAlignment="Center" VerticalAlignment="Center" MinHeight="25px" MinWidth="25px" Click="ChangePath"/>
             <StackPanel Grid.Row="4" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Top">
                 <TextBlock Text="Szobák száma: "/>
-                <TextBox x:Name="txtRoomNum" MinWidth="20px"/>
+                <TextBox x:Name="txtRoomNum" MinWidth="20px" TextChanged="TextChanged"/>
             </StackPanel>
         </Grid>
         <Button x:Name="btnSave" Grid.Row="2" Content="Mentés" Margin="5"/>

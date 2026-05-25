@@ -16,12 +16,20 @@ namespace MapEditor
     /// </summary>
     public partial class MainWindow : Window
     {
-
-        char[] symbols = ['═', '╬', '╦', '╩', '║', '╣', '╠', '╗', '╝', '╚', '╔'];
-
         public MainWindow()
         {
             InitializeComponent();
+
+            btnGenerate.IsEnabled = false;
+            btnRoom.IsEnabled = false;
+            btnSave.IsEnabled = false;
+
+            GeneratePathSelector();
+        }
+
+        private void GeneratePathSelector()
+        {
+            char[] symbols = ['═', '╬', '╦', '╩', '║', '╣', '╠', '╗', '╝', '╚', '╔'];
 
             txtCurrent.Text = symbols[0].ToString();
 
@@ -34,15 +42,37 @@ namespace MapEditor
                 Button btn = new Button();
                 btn.Content = symbols[i];
                 btn.FontSize = 30;
-                btn.Click += ChangeSymbol;
+                btn.Click += ChangePath;
                 Grid.SetColumn(btn, i);
                 grdPaths.Children.Add(btn);
             }
         }
 
-        private void ChangeSymbol(object sender, RoutedEventArgs e)
+        private void ChangePath(object sender, RoutedEventArgs e)
         {
-            txtCurrent.Text = sender.ToString().Substring(sender.ToString().Length - 1);
+            txtCurrent.Text = (e.Source as Button).Content.ToString();
+        }
+
+        private void TextChanged(object sender, TextChangedEventArgs e)
+        {
+            TextBox txt = e.Source as TextBox;
+
+            if (txt.Text.Length <= 1)
+            {
+                try
+                {
+                    Convert.ToInt32(txt.Text);
+                }
+                catch (Exception ex)
+                {
+                    txt.Text = "";
+                }
+            }
+            else
+            {
+                txt.Text = txt.Text.First().ToString();
+            }
+
         }
     }
 }
