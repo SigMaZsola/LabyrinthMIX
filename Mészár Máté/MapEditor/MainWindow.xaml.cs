@@ -73,6 +73,33 @@ namespace MapEditor
                 txt.Text = txt.Text.First().ToString();
             }
 
+            GenCheck();
+            RoomCheck();
+        }
+
+        private void GenCheck()
+        {
+            if (txtHeight.Text != "" && txtWidth.Text != "" && Convert.ToInt32(txtHeight.Text) >= 3 && Convert.ToInt32(txtWidth.Text) >= 3)
+            {
+                btnGenerate.IsEnabled = true;
+            }
+            else
+            {
+                btnGenerate.IsEnabled = false;
+            }
+        }
+
+        private void RoomCheck()
+        {
+            if (txtRoomNum.Text != "" && txtRoomNum.Text != "0")
+            {
+                btnRoom.IsEnabled = true;
+            }
+            else
+            {
+                btnRoom.IsEnabled = false;
+                txtCurrent.Text = "═";
+            }
         }
     }
 }
