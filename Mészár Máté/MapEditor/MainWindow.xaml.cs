@@ -43,6 +43,7 @@ namespace MapEditor
                 btn.Content = symbols[i];
                 btn.FontSize = 30;
                 btn.Click += ChangePath;
+                btn.FontFamily = new FontFamily("Consolas");
                 Grid.SetColumn(btn, i);
                 grdPaths.Children.Add(btn);
             }
@@ -57,7 +58,7 @@ namespace MapEditor
         {
             TextBox txt = e.Source as TextBox;
 
-            if (txt.Text.Length <= 1)
+            if (txt.Text.Length <= 2)
             {
                 try
                 {
@@ -70,7 +71,7 @@ namespace MapEditor
             }
             else
             {
-                txt.Text = txt.Text.First().ToString();
+                txt.Text = "";
             }
 
             GenCheck();
@@ -100,6 +101,63 @@ namespace MapEditor
                 btnRoom.IsEnabled = false;
                 txtCurrent.Text = "═";
             }
+        }
+
+        string[,] map;
+
+        private void btnGenerate_Click(object sender, RoutedEventArgs e)
+        {
+            grdGameField.Children.Clear();
+            grdGameField.ColumnDefinitions.Clear();
+            grdGameField.RowDefinitions.Clear();
+
+            int row = Convert.ToInt32(txtHeight.Text);
+            int col = Convert.ToInt32(txtWidth.Text);
+
+            map = new string[row, col];
+
+            for (int i = 0; i < row; i++)
+            {
+                grdGameField.RowDefinitions.Add(new RowDefinition());
+            }
+            for (int i = 0; i < col; i++)
+            {
+                grdGameField.ColumnDefinitions.Add(new ColumnDefinition());
+            }
+
+            for (int i = 0; i < row; i++)
+            {
+                for (int j = 0; j < col; j++)
+                {
+                    map[i, j] = ".";
+
+                    Button btn = new Button();
+                    btn.Background = Brushes.Beige;
+                    btn.FontFamily = new FontFamily("Consolas");
+                    btn.BorderBrush = new SolidColorBrush(Colors.Black);
+                    btn.FontSize = 20;
+                    btn.Click += PathPlace;
+                    btn.Tag = (i, j);
+
+                    Grid.SetRow(btn, i);
+                    Grid.SetColumn(btn, j);
+                    grdGameField.Children.Add(btn);
+                }
+            }
+            btnSave.IsEnabled = true;
+        }
+        private void PathPlace(object sender, RoutedEventArgs e)
+        {
+            if (sender is not Button btn || btn.Tag is not (int r, int c)) return;
+
+            btn.Content = txtCurrent.Text;
+            map[r, c] = btn.Content.ToString();
+
+        }
+
+        private void btnSave_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

@@ -44,7 +44,7 @@
                     <TextBlock Grid.Row="1" Text="Magasság: "/>
                     <TextBox x:Name="txtHeight" MinWidth="20px" TextChanged="TextChanged"/>
                 </StackPanel>              
-                <Button x:Name="btnGenerate" Content="Generálás" Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="5 2"/>
+                <Button x:Name="btnGenerate" Content="Generálás" Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="5 2" Click="btnGenerate_Click"/>
             </Grid>
             <TextBlock x:Name="txtCurrent" Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="30px"/>
             <Button x:Name="btnRoom" Grid.Row="3" Content="█" HorizontalAlignment="Center" VerticalAlignment="Center" MinHeight="25px" MinWidth="25px" Click="ChangePath"/>
@@ -53,7 +53,8 @@
                 <TextBox x:Name="txtRoomNum" MinWidth="20px" TextChanged="TextChanged"/>
             </StackPanel>
         </Grid>
-        <Button x:Name="btnSave" Grid.Row="2" Content="Mentés" Padding="5" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        <Button x:Name="btnSave" Grid.Row="2" Content="Mentés" Padding="5" HorizontalAlignment="Center" VerticalAlignment="Center" Click="btnSave_Click"/>
         <Grid x:Name="grdPaths" Grid.Row="1" Grid.Column="1"/>
+        <Grid x:Name="grdGameField" Grid.Column="1"/> 
     </Grid>
 </Window>
