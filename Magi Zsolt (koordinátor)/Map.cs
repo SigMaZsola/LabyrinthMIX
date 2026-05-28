@@ -8,13 +8,15 @@ using System.Threading.Tasks;
 
 namespace Labirintus
 {
-    internal class Map
+    public class Map
     {
         public Tile[,] tiles;
+        public string name;
 
-        public Map()
+        public Map(string name)
         {
- 
+            this.name = name;
+
             tiles = readTileMap();
         }
 

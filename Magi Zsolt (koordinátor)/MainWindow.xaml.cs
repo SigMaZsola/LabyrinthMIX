@@ -33,9 +33,9 @@ namespace Labirintus
             MainContent.Content = new StartView();
         }
 
-        public void ShowGameView()
+        public void ShowGameView(Map map)
         {
-            MainContent.Content = new GameView();
+            MainContent.Content = new GameView(map);
         }
     }
 }

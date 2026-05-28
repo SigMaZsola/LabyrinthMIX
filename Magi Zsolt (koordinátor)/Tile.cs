@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Labirintus
 {
-    internal class Tile
+    public class Tile
     {
         public enum tileType
         {

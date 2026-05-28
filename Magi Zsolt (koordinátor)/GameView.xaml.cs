@@ -23,14 +23,14 @@ namespace Faszomat
     {
         public int playerX = 7;
         public int playerY = 0;
-        private Map map = new Map();
-        public GameView()
+        private Map map;
+        public GameView(Map selectedMap)
         {
             InitializeComponent();
 
+            map = selectedMap;
+
             DrawMap(map.tiles);
-
-
         }
         private void DrawMap(Tile[,] tiles)
         {
