@@ -26,8 +26,8 @@
             </Grid.RowDefinitions>
 
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
-                <RadioButton x:Name="rbHu" Content="Hu" IsChecked="True"/>
-                <RadioButton x:Name="rbEn" Content="En"/>
+                <RadioButton x:Name="rbHu" Content="Hu" IsChecked="True" Checked="rbHu_Checked"/>
+                <RadioButton x:Name="rbEn" Content="En" Checked="rbEn_Checked"/>
             </StackPanel>
             <Grid Grid.Row="1">
                 <Grid.RowDefinitions>
@@ -37,11 +37,11 @@
                 </Grid.RowDefinitions>
 
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
-                    <TextBlock Text="Szélesség: "/>
+                    <TextBlock x:Name="txtBWidth" Text="Szélesség: "/>
                     <TextBox x:Name="txtWidth" MinWidth="20px" TextChanged="TextChanged"/>
                 </StackPanel>
                 <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
-                    <TextBlock Grid.Row="1" Text="Magasság: "/>
+                    <TextBlock x:Name="txtBHeight" Grid.Row="1" Text="Magasság: "/>
                     <TextBox x:Name="txtHeight" MinWidth="20px" TextChanged="TextChanged"/>
                 </StackPanel>              
                 <Button x:Name="btnGenerate" Content="Generálás" Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="5 2" Click="btnGenerate_Click"/>

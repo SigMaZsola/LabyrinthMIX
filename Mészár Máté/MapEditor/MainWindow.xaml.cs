@@ -146,5 +146,23 @@ namespace MapEditor
 
             File.WriteAllLines(sfd.FileName, lab.ToStringRows());
         }
+
+        private void rbEn_Checked(object sender, RoutedEventArgs e)
+        {
+            txtBHeight.Text = "Height: ";
+            txtBWidth.Text = "Width: ";
+            btnGenerate.Content = "Generate";
+            btnSave.Content = "Save";
+        }
+
+        private void rbHu_Checked(object sender, RoutedEventArgs e)
+        {
+            if (txtBHeight is null) return;
+
+            txtBHeight.Text = "Szélesség: ";
+            txtBWidth.Text = "Magasság: ";
+            btnGenerate.Content = "Generálás";
+            btnSave.Content = "Mentés";
+        }
     }
 }
