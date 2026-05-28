@@ -64,11 +64,11 @@ namespace Labirintus
                             break;
 
                         case '╩':
-                            type = Tile.tileType.T;
+                            type = Tile.tileType.UpT;
                             break;
 
                         case '╦':
-                            type = Tile.tileType.UpT;
+                            type = Tile.tileType.T;
                             break;
 
                         case '╠':
@@ -80,19 +80,19 @@ namespace Labirintus
                             break;
 
                         case '╗':
-                            type = Tile.tileType.TopLeftC;
-                            break;
-
-                        case '╔':
                             type = Tile.tileType.TopRightC;
                             break;
 
+                        case '╔':
+                            type = Tile.tileType.TopLeftC;
+                            break;
+
                         case '╝':
-                            type = Tile.tileType.BottomLeftC;
+                            type = Tile.tileType.BottomRightC;
                             break;
 
                         case '╚':
-                            type = Tile.tileType.BottomRightC;
+                            type = Tile.tileType.BottomLeftC;
                             break;
 
                         default:
