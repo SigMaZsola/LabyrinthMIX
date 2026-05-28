@@ -1,4 +1,6 @@
-﻿using System.Text;
+﻿using Microsoft.Win32;
+using System.IO;
+using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -21,7 +23,6 @@ namespace MapEditor
             InitializeComponent();
 
             btnGenerate.IsEnabled = false;
-            btnRoom.IsEnabled = false;
             btnSave.IsEnabled = false;
 
             GeneratePathSelector();
@@ -30,8 +31,6 @@ namespace MapEditor
         private void GeneratePathSelector()
         {
             char[] symbols = ['═', '╬', '╦', '╩', '║', '╣', '╠', '╗', '╝', '╚', '╔'];
-
-            txtCurrent.Text = symbols[0].ToString();
 
             for (int i = 0; i < symbols.Length; i++)
             {
@@ -51,7 +50,8 @@ namespace MapEditor
 
         private void ChangePath(object sender, RoutedEventArgs e)
         {
-            txtCurrent.Text = (e.Source as Button).Content.ToString();
+            string btnText = (sender as Button).Content.ToString();
+            txtCurrent.Text = btnText == "🗑️" ? "" : btnText;
         }
 
         private void TextChanged(object sender, TextChangedEventArgs e)
@@ -75,7 +75,6 @@ namespace MapEditor
             }
 
             GenCheck();
-            RoomCheck();
         }
 
         private void GenCheck()
@@ -90,21 +89,7 @@ namespace MapEditor
             }
         }
 
-        private void RoomCheck()
-        {
-            if (txtRoomNum.Text != "" && txtRoomNum.Text != "0")
-            {
-                btnRoom.IsEnabled = true;
-            }
-            else
-            {
-                btnRoom.IsEnabled = false;
-                txtCurrent.Text = "═";
-            }
-        }
-
-        string[,] map;
-
+        Labyrinth lab;
         private void btnGenerate_Click(object sender, RoutedEventArgs e)
         {
             grdGameField.Children.Clear();
@@ -114,7 +99,7 @@ namespace MapEditor
             int row = Convert.ToInt32(txtHeight.Text);
             int col = Convert.ToInt32(txtWidth.Text);
 
-            map = new string[row, col];
+            lab = new Labyrinth(row, col);
 
             for (int i = 0; i < row; i++)
             {
@@ -129,8 +114,6 @@ namespace MapEditor
             {
                 for (int j = 0; j < col; j++)
                 {
-                    map[i, j] = ".";
-
                     Button btn = new Button();
                     btn.Background = Brushes.Beige;
                     btn.FontFamily = new FontFamily("Consolas");
@@ -151,13 +134,17 @@ namespace MapEditor
             if (sender is not Button btn || btn.Tag is not (int r, int c)) return;
 
             btn.Content = txtCurrent.Text;
-            map[r, c] = btn.Content.ToString();
+            lab.AddPath(btn.Content.ToString(), r, c);
 
         }
 
         private void btnSave_Click(object sender, RoutedEventArgs e)
         {
+            SaveFileDialog sfd = new SaveFileDialog();
+            sfd.Filter = "Szöveges dokumentum (*.txt)|*.txt";
+            if (sfd.ShowDialog() == false) return;
 
+            File.WriteAllLines(sfd.FileName, lab.ToStringRows());
         }
     }
 }
