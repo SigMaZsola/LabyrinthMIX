@@ -1,21 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Windows;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace Labirintus
 {
-    class Player
+    public class Player
     {
-        public int posX;
-        public int posY;
-        char icon = 'P';
+        public Point position;
+        public char icon = 'P';
 
-        public Player(char icon, int posX = 0, int posY = 0)
+        public Player(char icon, Point position)
         {
-            this.posX = posX;
-            this.posY = posY;
+            this.position = position;
             this.icon = icon;
 
         }

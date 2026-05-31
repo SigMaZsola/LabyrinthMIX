@@ -21,6 +21,7 @@ namespace Labirintus
     /// </summary>
     public partial class MainWindow : Window
     {
+        public List<Map> Maps { get; private set; } = new List<Map>();
         public MainWindow()
         {
             InitializeComponent();

@@ -6,81 +6,211 @@
              Loaded="UserControl_Loaded"
              Height="450" Width="800">
 
-    <TabControl SelectionChanged="TabControl_SelectionChanged">
-        <TabItem Header="Könnyű mód">
-            <Grid >
-                <Grid.RowDefinitions>
-                    <RowDefinition />
-                    <RowDefinition Height="6*"/>
-                </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="10*"/>
-                    <ColumnDefinition />
+    <UserControl.Resources>
+        <Style x:Key="NavButton" TargetType="Button">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="#A0B4C8"/>
+            <Setter Property="BorderBrush" Value="#2A3A4A"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="FontFamily" Value="Consolas"/>
+            <Setter Property="FontSize" Value="11"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Padding" Value="8,6"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="3">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="#1A2A3A"/>
+                                <Setter Property="BorderBrush" Value="#4A9EBF"/>
+                                <Setter Property="Foreground" Value="#E0F0FF"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter Property="Background" Value="#0A1A2A"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
 
-                </Grid.ColumnDefinitions>
-                <Grid Grid.Row="0" Grid.Column="1">
-                    <Grid.RowDefinitions>
-                        <RowDefinition />
-                        <RowDefinition />
-                    </Grid.RowDefinitions>
-                    <Button Grid.Row="0" >LES</Button>
-                    <Button Grid.Row="1" >ENG</Button>
+        <Style x:Key="BackButton" TargetType="Button" BasedOn="{StaticResource NavButton}">
+            <Setter Property="BorderBrush" Value="#3A1A1A"/>
+            <Setter Property="Foreground" Value="#C87070"/>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#2A0A0A"/>
+                    <Setter Property="BorderBrush" Value="#BF4A4A"/>
+                    <Setter Property="Foreground" Value="#FFB0B0"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style x:Key="TabStyle" TargetType="TabItem">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="#607080"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="FontFamily" Value="Consolas"/>
+            <Setter Property="FontSize" Value="11"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Padding" Value="16,8"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="TabItem">
+                        <Border x:Name="TabBorder"
+                                Background="Transparent"
+                                BorderThickness="0,0,0,2"
+                                BorderBrush="Transparent"
+                                Padding="{TemplateBinding Padding}">
+                            <ContentPresenter ContentSource="Header"
+                                              HorizontalAlignment="Center"
+                                              VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsSelected" Value="True">
+                                <Setter TargetName="TabBorder" Property="BorderBrush" Value="#4A9EBF"/>
+                                <Setter Property="Foreground" Value="#D0E8F8"/>
+                            </Trigger>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Foreground" Value="#A0C4D8"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </UserControl.Resources>
+
+    <Border Background="#0B1520">
+        <TabControl SelectionChanged="TabControl_SelectionChanged"
+                    Background="Transparent"
+                    BorderThickness="0">
+            <TabControl.Resources>
+                <Style TargetType="TabPanel">
+                    <Setter Property="Background" Value="#0D1C2A"/>
+                    <Setter Property="HorizontalAlignment" Value="Left"/>
+                </Style>
+            </TabControl.Resources>
+
+            <!-- ═══ KÖNNYŰ MÓD ═══ -->
+            <TabItem Header="◈  KÖNNYŰ MÓD" Style="{StaticResource TabStyle}">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="120"/>
+                    </Grid.ColumnDefinitions>
+
+                    <!-- Game canvas -->
+                    <Border Grid.Column="0"
+                            Background="#0D1C2A"
+                            BorderBrush="#1A2E42"
+                            BorderThickness="0,1,1,0"
+                            Margin="8,8,4,8"
+                            CornerRadius="4">
+                        <Grid x:Name="GameGrid"/>
+                    </Border>
+
+                    <!-- Side panel -->
+                    <Border Grid.Column="1"
+                            Background="#0D1C2A"
+                            BorderBrush="#1A2E42"
+                            BorderThickness="1,1,0,0"
+                            Margin="4,8,8,8"
+                            CornerRadius="4">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+
+                            <!-- Status panel -->
+                            <Border Grid.Row="0"
+                                    Background="#0A1520"
+                                    BorderBrush="#1A2E42"
+                                    BorderThickness="0,0,0,1"
+                                    Padding="10,10">
+                                <StackPanel>
+
+                                    <TextBlock Text="DIR"
+                                               FontFamily="Consolas"
+                                               FontSize="9"
+                                               Foreground="#3A5A6A"
+                                               Margin="0,0,0,2"/>
+                                    <TextBlock x:Name="txtLepesek"
+                                               Text="—"
+                                               FontFamily="Consolas"
+                                               FontSize="13"
+                                               FontWeight="Bold"
+                                               Foreground="#4A9EBF" Height="105"/>
+                                    <TextBlock Text="Kincsesterrmek"
+                                               FontFamily="Consolas"
+                                               FontSize="9"
+                                               Foreground="#3A5A6A"
+                                               Margin="0,0,0,2"/>
+                                    <TextBlock x:Name="txtKincsestermek"
+                                         Text="—"
+                                         FontFamily="Consolas"
+                                         FontSize="13"
+                                         FontWeight="Bold"
+                                         Foreground="#4A9EBF" Height="19"/>
+                                </StackPanel>
+                            </Border>
+
+                            <!-- Spacer -->
+                            <Grid Grid.Row="1"/>
+
+                            <!-- Buttons -->
+                            <StackPanel Grid.Row="2" Margin="8,8">
+                                <Button Style="{StaticResource NavButton}" Margin="0,0,0,6">LES</Button>
+                                <Button Style="{StaticResource NavButton}" Margin="0,0,0,6">ENG</Button>
+                                <Button Style="{StaticResource BackButton}" Click="Back_Click">BACK</Button>
+                            </StackPanel>
+                        </Grid>
+                    </Border>
                 </Grid>
-                <Grid x:Name="GameGrid" Grid.Column="0" Grid.Row="1" Background="DarkGray">
+            </TabItem>
 
+            <!-- ═══ NEHÉZ MÓD ═══ -->
+            <TabItem Header="⚠  NEHÉZ MÓD" Style="{StaticResource TabStyle}">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="120"/>
+                    </Grid.ColumnDefinitions>
+
+                    <!-- Game canvas -->
+                    <Border Grid.Column="0"
+                            Background="#150D0D"
+                            BorderBrush="#2E1A1A"
+                            BorderThickness="0,1,1,0"
+                            Margin="8,8,4,8"
+                            CornerRadius="4">
+                        <Grid x:Name="GameGrid2"/>
+                    </Border>
+
+                    <!-- Side panel -->
+                    <Border Grid.Column="1"
+                            Background="#150D0D"
+                            BorderBrush="#2E1A1A"
+                            BorderThickness="1,1,0,0"
+                            Margin="4,8,8,8"
+                            CornerRadius="4">
+                        <StackPanel VerticalAlignment="Bottom" Margin="8,8">
+                            <Button Style="{StaticResource NavButton}" Margin="0,0,0,6">LES</Button>
+                            <Button Style="{StaticResource NavButton}">ENG</Button>
+                        </StackPanel>
+                    </Border>
                 </Grid>
+            </TabItem>
 
-            </Grid>
-        </TabItem>
-        <TabItem Header="Közpes mód" Height="22" Margin="-2,-2,-2,0" VerticalAlignment="Top">
-            <Grid >
-                <Grid.RowDefinitions>
-                    <RowDefinition />
-                    <RowDefinition Height="6*"/>
-                </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="10*"/>
-                    <ColumnDefinition />
-
-                </Grid.ColumnDefinitions>
-                <Grid Grid.Row="0" Grid.Column="1">
-                    <Grid.RowDefinitions>
-                        <RowDefinition />
-                        <RowDefinition />
-                    </Grid.RowDefinitions>
-                    <Button Grid.Row="0" >LES</Button>
-                    <Button Grid.Row="1" >ENG</Button>
-                </Grid>
-                <Grid x:Name="GameGrid1" Grid.Column="0" Grid.Row="1" Background="DarkGray">
-
-                </Grid>
-
-            </Grid>
-        </TabItem>
-        <TabItem Header="Nehéz mód">
-            <Grid >
-                <Grid.RowDefinitions>
-                    <RowDefinition />
-                    <RowDefinition Height="6*"/>
-                </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="10*"/>
-                    <ColumnDefinition />
-
-                </Grid.ColumnDefinitions>
-                <Grid Grid.Row="0" Grid.Column="1">
-                    <Grid.RowDefinitions>
-                        <RowDefinition />
-                        <RowDefinition />
-                    </Grid.RowDefinitions>
-                    <Button Grid.Row="0" >LES</Button>
-                    <Button Grid.Row="1" >ENG</Button>
-                </Grid>
-                <Grid x:Name="GameGrid2" Grid.Column="0" Grid.Row="1" Background="DarkGray">
-
-                </Grid>
-
-            </Grid>
-        </TabItem>
-    </TabControl>
+        </TabControl>
+    </Border>
 </UserControl>

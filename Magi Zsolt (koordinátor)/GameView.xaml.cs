@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -21,14 +22,25 @@ namespace Faszomat
     /// </summary>
     public partial class GameView : UserControl
     {
-        public int playerX = 7;
-        public int playerY = 0;
+        public Point playerPos = new Point(0, 0);
+        public Player player;
+        private int chamberCounter = 0;
+        private bool didGetOut = false;
+
+        private MediaPlayer musicPlayer = new MediaPlayer();
         private Map map;
+        private int chamberCount = 0;
         public GameView(Map selectedMap)
         {
             InitializeComponent();
-
             map = selectedMap;
+
+            chamberCount = map.chambers.Count;
+           
+            //eldöntjük, hogy melyik csempén kezd a player
+            playerPos = determineStartPos();
+            //player létrehozása
+            player = new Player('P', playerPos);
 
             DrawMap(map.tiles);
         }
@@ -60,7 +72,14 @@ namespace Faszomat
 
                 Label lbl = new Label();
 
-                lbl.Content = tile.icon.ToString();
+                if (tile.posX == playerPos.X && tile.posY == playerPos.Y)
+                {
+                    lbl.Content = "P";
+                }
+                else
+                {
+                    lbl.Content = tile.icon;
+                }
                 lbl.FontSize = 32;
                 lbl.HorizontalContentAlignment = HorizontalAlignment.Center;
                 lbl.VerticalContentAlignment = VerticalAlignment.Center;
@@ -76,23 +95,23 @@ namespace Faszomat
         private void TabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
 
-            MediaPlayer player = new MediaPlayer();
+
 
             string path = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Sounds", "sound.mp3");
 
 
-            player.Open(new Uri(path));
+            musicPlayer.Open(new Uri(path));
 
 
             var tab = (sender as TabControl).SelectedItem as TabItem;
 
             if (tab.Header.ToString() == "Nehéz mód")
             {
-                player.Play();
+                musicPlayer.Play();
             }
             else if (tab.Header.ToString() != "Nehéz mód")
             {
-                player.Stop();
+                musicPlayer.Stop();
             }
         }
 
@@ -127,26 +146,53 @@ namespace Faszomat
         }
         private void MovePlayer(Vector2 dir)
         {
+            int playerX = (int)playerPos.X;
+            int playerY = (int)playerPos.Y;
+
+
             int newX = playerX + (int)dir.X;
             int newY = playerY + (int)dir.Y;
 
-            // pályán belül maradunk?
+            int maxX = map.tiles.GetLength(0);
+            int maxY = map.tiles.GetLength(1);
+
+            // kilépés esetén NEM lépünk tovább
             if (newX < 0 || newY < 0 ||
-                newX >= map.tiles.GetLength(0) ||
-                newY >= map.tiles.GetLength(1))
+                newX >= maxX || newY >= maxY)
             {
                 return;
             }
 
-            Tile currentTile = map.tiles[playerX, playerY];
             Tile targetTile = map.tiles[newX, newY];
+
+            // EXIT CHECK CSAK AKKOR
+            foreach (Point exit in map.exits)
+            {
+                
+
+                if (targetTile == null)
+                    return;
+                if (targetTile.posX == exit.X && targetTile.posY == exit.Y)
+                {
+                    checkExit();
+                    break;
+                }
+            }
+
+            Tile currentTile = map.tiles[playerX, playerY];
+
 
             if (targetTile == null)
                 return;
 
             // kapcsolat ellenőrzése
+
+
+
+
             if (!CheckConnections(currentTile, targetTile, dir))
                 return;
+
 
             // régi P törlése
             foreach (UIElement child in GameGrid.Children)
@@ -164,9 +210,13 @@ namespace Faszomat
             }
 
             // új pozíció
+
+            playerPos = new Point(newX, newY);
+
             playerX = newX;
             playerY = newY;
-
+            checkChamber(map.tiles[playerX, playerY]);
+            ShowAvailableDirections(map.tiles[playerX, playerY]);
             // új P kirajzolása
             foreach (UIElement child in GameGrid.Children)
             {
@@ -177,7 +227,7 @@ namespace Faszomat
 
                     if (x == playerX && y == playerY)
                     {
-                        label.Content = "P";
+                        label.Content = player.icon;
                     }
                 }
             }
@@ -226,35 +276,104 @@ namespace Faszomat
         //    return neighbours;
         //}
 
+        //MInden irányból elérhető csempék megnézése
+        private void ShowAvailableDirections(Tile current)
+        {
+            List<string> directions = new List<string>();
+
+            if (current.connections[0])
+                directions.Add("Fel\n");
+
+            if (current.connections[1])
+                directions.Add("Le\n");
+
+            if (current.connections[2])
+                directions.Add("Bal\n");
+
+            if (current.connections[3])
+                directions.Add("Jobb\n");
+
+            txtLepesek.Text = string.Join("", directions);
+        }
+        //megnézi jártunk már-e ebben a kincseskamrában
+        private void checkChamber(Tile current)
+        {
+            if (current.type == Tile.tileType.Chamber)
+            {
+                chamberCounter++;
+                current.type = Tile.tileType.Empty;
+                MessageBox.Show("Kamra megtalálva!");
+                txtKincsestermek.Text = chamberCounter.ToString() + "/" + chamberCount;
+            }
+        }
+
+
+        //Vissszalépés a startmenüre
+        private void Back_Click(object sender, RoutedEventArgs e)
+        {
+            ExitGame();
+        }
         //egy bizonyos csempe és a jeléenlegi csempe kapcsolat leellenőrzése
         private bool CheckConnections(Tile current, Tile target, Vector2 dir)
         {
             // fel
             if (dir.Y == -1)
             {
+
                 return current.connections[0] && target.connections[1];
             }
 
             // le
             if (dir.Y == 1)
             {
+
                 return current.connections[1] && target.connections[0];
             }
 
             // bal
             if (dir.X == -1)
             {
+
                 return current.connections[2] && target.connections[3];
             }
 
             // jobb
             if (dir.X == 1)
             {
+
                 return current.connections[3] && target.connections[2];
             }
 
             return false;
         }
+
+
+
+        private Point determineStartPos()
+        {
+            if (map.exits == null || map.exits.Count == 0)
+                return new Point(0, 0);
+
+            Random rnd = new Random();
+            return map.exits[rnd.Next(map.exits.Count)];
+        }
+
+        //Nyertünk-e?
+        private void checkExit() {
+            if (chamberCount > chamberCounter)
+            {
+                MessageBox.Show("Még van fel nem fedezett kamra!");
+            }
+            else {
+                MessageBox.Show("Nyertél!");
+                ExitGame();
+            }
+            
+        }
+        private void ExitGame() {
+            ((MainWindow)Application.Current.MainWindow).ShowStartView();
+        }
     }
-}
+
+ }
 
