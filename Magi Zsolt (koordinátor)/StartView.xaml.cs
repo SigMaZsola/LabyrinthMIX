@@ -35,6 +35,17 @@ namespace Faszomat
             Main.ShowGameView(selectedMap);
         }
 
+        private void Load_Click(object sender, RoutedEventArgs e)
+        {
+
+
+            Map map = new Map(txtNameGiver.Text);
+
+            Main.Maps.Add(map);
+
+            lbSaves.Items.Add(map.name);
+        }
+
         private void Add_Click(object sender, RoutedEventArgs e)
         {
             if (string.IsNullOrWhiteSpace(txtNameGiver.Text))

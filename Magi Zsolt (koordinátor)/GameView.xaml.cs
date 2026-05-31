@@ -14,6 +14,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using Labirintus;
+using Microsoft.Win32;
 
 namespace Faszomat
 {
@@ -351,7 +352,10 @@ namespace Faszomat
 
         private Point determineStartPos()
         {
-            if (map.exits == null || map.exits.Count == 0)
+            if (map.playerPos != new Point(0,0)) {
+                return map.playerPos;
+            }
+            else if (map.exits == null || map.exits.Count == 0)
                 return new Point(0, 0);
 
             Random rnd = new Random();
@@ -372,6 +376,49 @@ namespace Faszomat
         }
         private void ExitGame() {
             ((MainWindow)Application.Current.MainWindow).ShowStartView();
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+
+            //Adatok és pálya elmentése
+            SaveFileDialog sfd = new SaveFileDialog
+            {
+                Filter = "Save File (*.SAV)|*.SAV",
+                DefaultExt = ".SAV"
+            };
+
+            if (sfd.ShowDialog() != true)
+                return;
+
+            int width = map.tiles.GetLength(0);
+            int height = map.tiles.GetLength(1);
+
+            StringBuilder sb = new StringBuilder();
+
+            sb.AppendLine("MAP");
+
+            for (int y = 0; y < height; y++)
+            {
+                for (int x = 0; x < width; x++)
+                {
+                    Tile tile = map.tiles[x, y];
+                    sb.Append(tile == null ? '.' : tile.icon);
+                }
+                sb.AppendLine();
+            }
+
+            sb.AppendLine("ENDMAP");
+
+            sb.AppendLine("PLAYER");
+            sb.AppendLine($"{playerPos.X};{playerPos.Y}");
+            sb.AppendLine("ENDPLAYER");
+
+            sb.AppendLine("CHAMBERS");
+            sb.AppendLine(chamberCounter.ToString());
+            sb.AppendLine("ENDCHAMBERS");
+
+            System.IO.File.WriteAllText(sfd.FileName, sb.ToString());
         }
     }
 

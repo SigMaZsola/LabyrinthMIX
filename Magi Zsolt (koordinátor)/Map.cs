@@ -12,111 +12,26 @@ namespace Labirintus
     {
         public Tile[,] tiles;
         public string name;
-        //list a kijáratok koordinátáival
-        public List<System.Windows.Point> exits = new List<System.Windows.Point>();
-        //list a chamberek koordinátával
-        public List<System.Windows.Point> chambers = new List<System.Windows.Point>();
-        public Map(string name)
+
+        public List<System.Windows.Point> exits = new();
+        public List<System.Windows.Point> chambers = new();
+
+        public System.Windows.Point playerPos;
+        public int chamberCounter;
+
+        public Map(string name, Tile[,] tiles)
         {
             this.name = name;
+            this.tiles = tiles;
 
-            tiles = readTileMap();
             GetSuitableEntrance();
             GetRoomNumber();
         }
 
-        private Tile[,] readTileMap()
-        {
-            OpenFileDialog ofd = new OpenFileDialog();
 
-            if (ofd.ShowDialog() != true)
-                return null;
-
-            string[] sorok = File.ReadAllLines(ofd.FileName);
-
-            int magassag = sorok.Length;
-            int szelesseg = sorok[0].Length;
-
-            Tile[,] readTiles = new Tile[szelesseg, magassag];
-
-            for (int y = 0; y < sorok.Length; y++)
-            {
-                string sor = sorok[y];
-
-                for (int x = 0; x < sor.Length; x++)
-                {
-                    char c = sor[x];
-
-                    if (c == '.')
-                        continue;
-
-                    Tile.tileType type;
-
-                    switch (c)
-                    {
-                        case '█':
-                            type = Tile.tileType.Chamber;
-                            break;
-
-                        case '╬':
-                            type = Tile.tileType.Cross;
-                            break;
-
-                        case '═':
-                            type = Tile.tileType.Horizontal;
-                            break;
-
-                        case '║':
-                            type = Tile.tileType.Vertical;
-                            break;
-
-                        case '╩':
-                            type = Tile.tileType.UpT;
-                            break;
-
-                        case '╦':
-                            type = Tile.tileType.T;
-                            break;
-
-                        case '╠':
-                            type = Tile.tileType.RightT;
-                            break;
-
-                        case '╣':
-                            type = Tile.tileType.LeftT;
-                            break;
-
-                        case '╗':
-                            type = Tile.tileType.TopRightC;
-                            break;
-
-                        case '╔':
-                            type = Tile.tileType.TopLeftC;
-                            break;
-
-                        case '╝':
-                            type = Tile.tileType.BottomRightC;
-                            break;
-
-                        case '╚':
-                            type = Tile.tileType.BottomLeftC;
-                            break;
-
-                        default:
-                            continue;
-                    }
-
-                    Tile tile = new Tile(x, y, type, c);
-
-                    readTiles[x, y] = tile;
-                }
-            }
-
-            return readTiles;
-        }
 
         //Farkas által megírt algoritmusok implelemntálása
-        
+
         //Kijáratok
         public void GetSuitableEntrance()
         {
