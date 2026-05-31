@@ -79,13 +79,31 @@ namespace MapEditor
 
         private void GenCheck()
         {
-            if (txtHeight.Text != "" && txtWidth.Text != "" && Convert.ToInt32(txtHeight.Text) >= 3 && Convert.ToInt32(txtWidth.Text) >= 3)
+            string height = txtHeight.Text;
+            string width = txtWidth.Text;
+
+            if (height != "" && width != "" && CheckMaxMin(height, width, 3, 30))
             {
                 btnGenerate.IsEnabled = true;
             }
             else
             {
                 btnGenerate.IsEnabled = false;
+            }
+        }
+
+        private bool CheckMaxMin(string heightT, string widthT, int min, int max)
+        {
+            int height = Convert.ToInt32(heightT);
+            int width = Convert.ToInt32(widthT);
+
+            if (height >= min && width >= min && height <= max && width <= max)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
             }
         }
 
@@ -138,15 +156,6 @@ namespace MapEditor
 
         }
 
-        private void btnSave_Click(object sender, RoutedEventArgs e)
-        {
-            SaveFileDialog sfd = new SaveFileDialog();
-            sfd.Filter = "Szöveges dokumentum (*.txt)|*.txt";
-            if (sfd.ShowDialog() == false) return;
-
-            File.WriteAllLines(sfd.FileName, lab.ToStringRows());
-        }
-
         private void rbEn_Checked(object sender, RoutedEventArgs e)
         {
             txtBHeight.Text = "Height: ";
@@ -163,6 +172,44 @@ namespace MapEditor
             txtBWidth.Text = "Magasság: ";
             btnGenerate.Content = "Generálás";
             btnSave.Content = "Mentés";
+        }
+
+        private void btnSave_Click(object sender, RoutedEventArgs e)
+        {
+            if (!IsConsistent()) return;
+
+            SaveFileDialog sfd = new SaveFileDialog();
+            sfd.Filter = "Szöveges dokumentum (*.txt)|*.txt|.SAV formátum (*.sav)|*.sav";
+            if (sfd.ShowDialog() == false) return;
+
+            File.WriteAllLines(sfd.FileName, lab.ToStringRows());
+        }
+
+        private bool IsConsistent()
+        {
+            bool english = rbEn.IsChecked == true ? true : false;
+
+            if (lab.GetRoomNumber() == 0)
+            {
+                MessageBox.Show(english == true ? "no room" : "nincs szoba");
+                return false;
+            }
+            if (lab.GetSuitableEntrance() == 0)
+            {
+                MessageBox.Show(english == true ? "no exit" : "nincs kijárat");
+                return false;
+            }
+            if (lab.IsInvalidElement())
+            {
+                MessageBox.Show(english == true ? "Invalid character" : "nem valid karakter");
+                return false;
+            }
+            if (lab.GetUnavailableElements().Count >= 1)
+            {
+                MessageBox.Show(english == true ? $"{lab.GetUnavailableElements().Count} unavailable path(s)" : $"{lab.GetUnavailableElements().Count} elérhetetlen út");
+                return false;
+            }
+            return true;
         }
     }
 }
