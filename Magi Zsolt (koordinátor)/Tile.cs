@@ -8,6 +8,7 @@ namespace Labirintus
 {
     public class Tile
     {
+        public bool discovered = false;
         public enum tileType
         {
             Empty,

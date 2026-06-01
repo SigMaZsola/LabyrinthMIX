@@ -20,6 +20,8 @@ namespace Faszomat
 {
     public partial class GameView : UserControl
     {
+        //Helo jövőbeli Zsolti. Ezt arra hsználod, hogy a hard/könnyű mód között dönts
+        private bool hardMode = false;
         //ez alapján a kis kérdőjeles kettőspontos tuti van valami fany ahh neve hülyeséggel döntjük el, hogy mi melyik nyelv
         public bool engPerhun = true;
         public Point playerPos = new Point(0, 0);
@@ -38,6 +40,7 @@ namespace Faszomat
             chamberCount = map.chambers.Count;
 
             playerPos = determineStartPos();
+            map.tiles[(int)playerPos.X, (int)playerPos.Y].discovered = true;
             player = new Player('P', playerPos);
 
             DrawMap(map.tiles);
@@ -66,7 +69,8 @@ namespace Faszomat
             {
                 if (tile == null)
                     continue;
-
+                if (hardMode && !tile.discovered)
+                    continue;
                 Label lbl = new Label();
 
                 if (tile.posX == playerPos.X && tile.posY == playerPos.Y)
@@ -98,14 +102,18 @@ namespace Faszomat
 
             var tab = (sender as TabControl).SelectedItem as TabItem;
 
-            if (tab.Header.ToString() == "Nehéz mód")
+            if (tab.Header.ToString() == "Nehéz mód" ||
+                tab.Header.ToString() == "Hard mode")
             {
+                hardMode = true;
                 musicPlayer.Play();
             }
-            else if (tab.Header.ToString() != "Nehéz mód")
+            else
             {
+                hardMode = false;
                 musicPlayer.Stop();
             }
+            DrawMap(map.tiles);
         }
 
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
@@ -207,6 +215,13 @@ namespace Faszomat
                     }
                 }
             }
+            //Ha nehéz mód, felfedeztetjük a csempét
+            if (hardMode)
+            {
+                map.tiles[playerX, playerY].discovered = true;
+                DrawMap(map.tiles);
+            }
+
         }
 
         private void ShowAvailableDirections(Tile current)

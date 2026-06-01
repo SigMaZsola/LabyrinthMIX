@@ -7,6 +7,7 @@
              Height="450" Width="800">
 
     <UserControl.Resources>
+
         <Style x:Key="NavButton" TargetType="Button">
             <Setter Property="Background" Value="Transparent"/>
             <Setter Property="Foreground" Value="#A0B4C8"/>
@@ -86,131 +87,106 @@
                 </Setter.Value>
             </Setter>
         </Style>
+
     </UserControl.Resources>
 
     <Border Background="#0B1520">
-        <TabControl SelectionChanged="TabControl_SelectionChanged"
-                    Background="Transparent"
-                    BorderThickness="0">
-            <TabControl.Resources>
-                <Style TargetType="TabPanel">
-                    <Setter Property="Background" Value="#0D1C2A"/>
-                    <Setter Property="HorizontalAlignment" Value="Left"/>
-                </Style>
-            </TabControl.Resources>
 
-            <!-- ═══ KÖNNYŰ MÓD ═══ -->
-            <TabItem Header="{DynamicResource EasyMode}" Style="{StaticResource TabStyle}" Height="31" VerticalAlignment="Bottom">
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="120"/>
-                    </Grid.ColumnDefinitions>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
 
-                    <!-- Game canvas -->
-                    <Border Grid.Column="0"
-                            Background="#0D1C2A"
-                            BorderBrush="#1A2E42"
-                            BorderThickness="0,1,1,0"
-                            Margin="8,8,4,8"
-                            CornerRadius="4">
-                        <Grid x:Name="GameGrid"/>
-                    </Border>
+            <!-- FELÜL: MÓDVÁLASZTÓ TAB (CSAK UI, NINCS GAMEGRID DUPLIKÁCIÓ) -->
+            <TabControl Grid.Row="0"
+                        SelectionChanged="TabControl_SelectionChanged"
+                        Background="Transparent"
+                        BorderThickness="0">
 
-                    <!-- Side panel -->
-                    <Border Grid.Column="1"
-                            Background="#0D1C2A"
-                            BorderBrush="#1A2E42"
-                            BorderThickness="1,1,0,0"
-                            Margin="4,8,8,8"
-                            CornerRadius="4">
-                        <Grid>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto"/>
-                                <RowDefinition Height="*"/>
-                                <RowDefinition Height="Auto"/>
-                            </Grid.RowDefinitions>
+                <TabItem Header="{DynamicResource EasyMode}"
+                         Style="{StaticResource TabStyle}"/>
 
-                            <!-- Status panel -->
-                            <Border Grid.Row="0"
-                                    Background="#0A1520"
-                                    BorderBrush="#1A2E42"
-                                    BorderThickness="0,0,0,1"
-                                    Padding="10,10">
-                                <StackPanel>
+                <TabItem Header="{DynamicResource HardMode}"
+                         Style="{StaticResource TabStyle}"/>
+            </TabControl>
 
-                                    <TextBlock Text="{DynamicResource Dir}"
-                                               FontFamily="Consolas"
-                                               FontSize="9"
-                                               Foreground="#3A5A6A"
-                                               Margin="0,0,0,2"/>
-                                    <TextBlock x:Name="txtLepesek"
-                                               Text="—"
-                                               FontFamily="Consolas"
-                                               FontSize="13"
-                                               FontWeight="Bold"
-                                               Foreground="#4A9EBF" Height="105"/>
-                                    <TextBlock Text="{DynamicResource Chamber}"
-                                               FontFamily="Consolas"
-                                               FontSize="9"
-                                               Foreground="#3A5A6A"
-                                               Margin="0,0,0,2"/>
-                                    <TextBlock x:Name="txtKincsestermek"
-                                         Text="—"
-                                         FontFamily="Consolas"
-                                         FontSize="13"
-                                         FontWeight="Bold"
-                                         Foreground="#4A9EBF" Height="19"/>
-                                </StackPanel>
-                            </Border>
+            <!-- JÁTÉKTÉR (EGY DB, EZ MARAD AZ EGYETLEN MAP) -->
+            <Grid Grid.Row="1">
 
-                            <!-- Spacer -->
-                            <Grid Grid.Row="1"/>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="120"/>
+                </Grid.ColumnDefinitions>
 
-                            <!-- Buttons -->
-                            <StackPanel Grid.Row="2" Margin="8,8">
-                                <Button Style="{StaticResource NavButton}" Margin="0,0,0,6" Click="Button_Click" Content="{DynamicResource Save}"></Button>
-                                <Button Style="{StaticResource NavButton}" Margin="0,0,0,6" Click="Button_Click_1">🌐</Button>
-                                <Button Style="{StaticResource BackButton}" Click="Back_Click" Content="{DynamicResource Back}"></Button>
-                            </StackPanel>
-                        </Grid>
-                    </Border>
-                </Grid>
-            </TabItem>
+                <!-- MAP -->
+                <Border Grid.Column="0"
+                        Background="#0D1C2A"
+                        BorderBrush="#1A2E42"
+                        BorderThickness="0,1,1,0"
+                        Margin="8,8,4,8"
+                        CornerRadius="4">
+                    <Grid x:Name="GameGrid"/>
+                </Border>
 
-            <!-- ═══ NEHÉZ MÓD ═══ -->
-            <TabItem Header="{DynamicResource HardMode}" Style="{StaticResource TabStyle}" Height="31" VerticalAlignment="Bottom">
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="120"/>
-                    </Grid.ColumnDefinitions>
+                <!-- OLDALSÓ PANEL -->
+                <Border Grid.Column="1"
+                        Background="#0D1C2A"
+                        BorderBrush="#1A2E42"
+                        BorderThickness="1,1,0,0"
+                        Margin="4,8,8,8"
+                        CornerRadius="4">
 
-                    <!-- Game canvas -->
-                    <Border Grid.Column="0"
-                            Background="#150D0D"
-                            BorderBrush="#2E1A1A"
-                            BorderThickness="0,1,1,0"
-                            Margin="8,8,4,8"
-                            CornerRadius="4">
-                        <Grid x:Name="GameGrid2"/>
-                    </Border>
+                    <StackPanel Margin="8,8">
 
-                    <!-- Side panel -->
-                    <Border Grid.Column="1"
-                            Background="#150D0D"
-                            BorderBrush="#2E1A1A"
-                            BorderThickness="1,1,0,0"
-                            Margin="4,8,8,8"
-                            CornerRadius="4">
-                        <StackPanel VerticalAlignment="Bottom" Margin="8,8">
-                            <Button Style="{StaticResource NavButton}" Margin="0,0,0,6">LES</Button>
-                            <Button Style="{StaticResource NavButton}">ENG</Button>
-                        </StackPanel>
-                    </Border>
-                </Grid>
-            </TabItem>
+                        <TextBlock Text="{DynamicResource Dir}"
+                                   FontFamily="Consolas"
+                                   FontSize="9"
+                                   Foreground="#3A5A6A"
+                                   Margin="0,0,0,2"/>
 
-        </TabControl>
+                        <TextBlock x:Name="txtLepesek"
+                                   Text="—"
+                                   FontFamily="Consolas"
+                                   FontSize="13"
+                                   FontWeight="Bold"
+                                   Foreground="#4A9EBF"
+                                   Height="105"/>
+
+                        <TextBlock Text="{DynamicResource Chamber}"
+                                   FontFamily="Consolas"
+                                   FontSize="9"
+                                   Foreground="#3A5A6A"
+                                   Margin="0,10,0,2"/>
+
+                        <TextBlock x:Name="txtKincsestermek"
+                                   Text="—"
+                                   FontFamily="Consolas"
+                                   FontSize="13"
+                                   FontWeight="Bold"
+                                   Foreground="#4A9EBF"
+                                   Height="19"/>
+
+                        <Button Style="{StaticResource NavButton}"
+                                Margin="0,10,0,6"
+                                Click="Button_Click"
+                                Content="{DynamicResource Save}"/>
+
+                        <Button Style="{StaticResource NavButton}"
+                                Margin="0,0,0,6"
+                                Click="Button_Click_1"
+                                Content="🌐"/>
+
+                        <Button Style="{StaticResource BackButton}"
+                                Click="Back_Click"
+                                Content="{DynamicResource Back}"/>
+
+                    </StackPanel>
+
+                </Border>
+
+            </Grid>
+        </Grid>
+
     </Border>
 </UserControl>
