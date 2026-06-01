@@ -138,57 +138,70 @@
 
                     <Button Grid.Column="2"
                             x:Name="btnOpen"
-                            Content="ADD"
+                            Content="{DynamicResource Add}"
                             Style="{StaticResource ActionButton}"
                             Click="Add_Click" Margin="0,0,48,0"/>
                     <Button Grid.Column="2"
                             x:Name="btnLoad"
-                            Content="LOAD"
+                            Content="{DynamicResource Load}"
                             Style="{StaticResource ActionButton}"
-                            Click="Load_Click" Grid.ColumnSpan="3" Margin="110,0,114,0"/>
+                            Click="Load_Click" Grid.ColumnSpan="3" Margin="110,0,114,0" Height="37" VerticalAlignment="Top"/>
 
                     <Button Grid.Column="4"
                             x:Name="btnStart"
-                            Content="START"
+                            Content="{DynamicResource Start}"
                             Style="{StaticResource StartButton}"
                             Click="Start_Click" Margin="45,0,0,0"/>
                 </Grid>
             </Border>
 
-            <!-- Saves list -->
+            <!-- Saves lista -->
             <Border Grid.Row="2"
-                    Margin="16,12,16,16"
-                    BorderBrush="#1A2E42"
-                    BorderThickness="1"
-                    CornerRadius="4"
-                    Background="#0D1C2A">
+        Margin="16,12,16,16"
+        BorderBrush="#1A2E42"
+        BorderThickness="1"
+        CornerRadius="4"
+        Background="#0D1C2A">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
 
-                    <Border Grid.Row="0"
-                            Background="#0A1520"
-                            BorderBrush="#1A2E42"
-                            BorderThickness="0,0,0,1"
-                            Padding="10,6">
-                        <TextBlock Text="MENTETT JÁTÉKOK"
-                                   FontFamily="Consolas"
-                                   FontSize="9"
-                                   FontWeight="Bold"
-                                   Foreground="#3A6A8A"
-                                   />
-                    </Border>
+                    <Grid Grid.Row="0"
+              Background="#0A1520">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock Grid.Column="0"
+                       Text="{DynamicResource MapName}"
+                       FontFamily="Consolas"
+                       FontSize="9"
+                       FontWeight="Bold"
+                       Foreground="#3A6A8A"
+                       VerticalAlignment="Center"
+                       Margin="10,6"/>
+
+                        <Button Grid.Column="1"
+                    Width="38"
+                    Height="28"
+                    Margin="0,4,6,4"
+                    Style="{StaticResource ActionButton}"
+                    Click="Button_Click_1"
+                    FontSize="14">
+                            🌐
+                        </Button>
+                    </Grid>
 
                     <ListBox Grid.Row="1"
-                             x:Name="lbSaves"
-                             Background="Transparent"
-                             BorderThickness="0"
-                             ScrollViewer.HorizontalScrollBarVisibility="Disabled"/>
+                 x:Name="lbSaves"
+                 Background="Transparent"
+                 BorderThickness="0"
+                 ScrollViewer.HorizontalScrollBarVisibility="Disabled"/>
                 </Grid>
             </Border>
-
         </Grid>
     </Border>
 </UserControl>

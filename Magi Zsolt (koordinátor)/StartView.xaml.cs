@@ -11,6 +11,8 @@ namespace Faszomat
 {
     public partial class StartView : UserControl
     {
+        public bool engPerhun = true;
+
         private MainWindow Main => (MainWindow)Application.Current.MainWindow;
 
         public StartView()
@@ -250,5 +252,35 @@ namespace Faszomat
                     return null;
             }
         }
+
+            public static void ChangeLanguage(bool culture){
+            ResourceDictionary dict = new ResourceDictionary();
+
+            switch (culture)
+            {
+                case true:
+                    dict.Source =
+                        new Uri("Languages/Hu.xaml",
+                        UriKind.Relative);
+                    break;
+
+                case false:
+                    dict.Source =
+                        new Uri("Languages/Eng.xaml",
+                        UriKind.Relative);
+                    break;
+            }
+
+            Application.Current.Resources.MergedDictionaries.Clear();
+            Application.Current.Resources.MergedDictionaries.Add(dict);
+        }
+
+        private void Button_Click_1(object sender, RoutedEventArgs e)
+        {
+            engPerhun = !engPerhun;
+            ChangeLanguage(engPerhun);
+        }
+
+
     }
 }

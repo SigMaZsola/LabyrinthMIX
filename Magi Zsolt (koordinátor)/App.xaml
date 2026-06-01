@@ -4,6 +4,11 @@
              xmlns:local="clr-namespace:Labirintus"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
-         
+        <!--Chati azt mondta így kell kétnyelvűséget csinálni-->
+            <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Languages/Hu.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
     </Application.Resources>
 </Application>
