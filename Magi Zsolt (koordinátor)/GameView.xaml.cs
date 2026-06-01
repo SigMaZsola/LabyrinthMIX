@@ -16,7 +16,7 @@ using System.Windows.Shapes;
 using Labirintus;
 using Microsoft.Win32;
 
-namespace Faszomat
+namespace Labirintus
 {
     public partial class GameView : UserControl
     {
