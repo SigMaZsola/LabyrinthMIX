@@ -72,29 +72,25 @@ namespace Labirintus
             int oszlopok = map.GetLength(1);
             int kijarat = 0;
 
-            for (int y = 0; y < oszlopok; y++)
-            {
-                if (fel(map[0, y]))
-                    kijarat++;
-            }
+            for (int y = 1; y < oszlopok - 1; y++)
+                if (fel(map[0, y])) kijarat++;
 
-            for (int y = 0; y < oszlopok; y++)
-            {
-                if (le(map[sorok - 1, y]))
-                    kijarat++;
-            }
+            for (int y = 1; y < oszlopok - 1; y++)
+                if (le(map[sorok - 1, y])) kijarat++;
 
             for (int x = 1; x < sorok - 1; x++)
-            {
-                if (balra(map[x, 0]))
-                    kijarat++;
-            }
+                if (balra(map[x, 0])) kijarat++;
 
             for (int x = 1; x < sorok - 1; x++)
-            {
-                if (jobbra(map[x, oszlopok - 1]))
-                    kijarat++;
-            }
+                if (jobbra(map[x, oszlopok - 1])) kijarat++;
+
+            if (fel(map[0, 0]) || balra(map[0, 0])) kijarat++;
+
+            if (fel(map[0, oszlopok - 1]) || jobbra(map[0, oszlopok - 1])) kijarat++;
+
+            if (le(map[sorok - 1, 0]) || balra(map[sorok - 1, 0])) kijarat++;
+
+            if (le(map[sorok - 1, oszlopok - 1]) || jobbra(map[sorok - 1, oszlopok - 1])) kijarat++;
 
             return kijarat;
         }
