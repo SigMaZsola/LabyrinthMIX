@@ -88,5 +88,12 @@ namespace Labirintus
                 }
             }
         }
+
+        //A karaktereket átalakítja tileokká
+        
+
+
+        
+
     }
 }
